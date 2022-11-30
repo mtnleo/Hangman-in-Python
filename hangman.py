@@ -1,41 +1,28 @@
-import random
-import os
+import hangfuncs
 
-lives = 7
-
-def GetWord():
-  words = (i.strip().lower() for i in open("wordlist.10000.txt", "r"))
-  randomWord = list(words)[random.randint(0, 10000)]
-  return randomWord
-
-def Guess():
-  print("--- Guess a letter: \n")
-  guess = input(">  ").lower()
-  return guess
-
-
-mysteryWord = GetWord()
+# vars
+win = False
+mysteryWord = hangfuncs.GetWord()
 wordArray = [i for i in mysteryWord]
 mysteryArray = [" _ " for i in range(0, len(wordArray))]
 wrongGuesses = []
 
-win = False
-
-while(lives > 0 and win == False):
-  os.system("clear")
-  print("LIVES =  ", lives, "   WRONG GUESSES: ", wrongGuesses)
+#main loop
+while(hangfuncs.lives > 0 and win == False):
+  hangfuncs.os.system("clear")
+  print("LIVES =  ", hangfuncs.lives, "   WRONG GUESSES: ", wrongGuesses)
   print("\n\n", mysteryArray)
-  guess = Guess()
+  guess = hangfuncs.Guess()
 
   if mysteryWord.find(guess) != -1:
     for i in range(0, len(mysteryWord)):
       if(mysteryWord[i] == guess):
         mysteryArray[i] = guess
   elif guess not in wrongGuesses:
-    lives -= 1
+    hangfuncs.lives -= 1
     wrongGuesses.append(guess)
 
-  if lives == 0:
+  if hangfuncs.lives == 0:
     print("YOU LOST, THE WORD WAS", mysteryWord.upper())
 
   if " _ " not in mysteryArray:
